@@ -1,70 +1,67 @@
-classdef Arena < UpdateableObject % & Manager
+classdef Arena < DrawableObject
     properties (SetAccess = protected, GetAccess = protected)
-        simul
         windowSize
         arenaDimension
-        image_name
         % internal
         arenaSquaresList
     end
     methods
         function obj = Arena(simul,windowSize,arenaDimension,image_name)
-            obj.simul = simul;
+            obj = obj @ DrawableObject(simul,0,0,image_name,1);
+            
             obj.windowSize = windowSize;
             obj.arenaDimension = arenaDimension;
-            obj.image_name = image_name;
         end
         function initialize(obj)
             % assuming: ^ (y)
             %           |      [square]
             %           0 –—> (x)
 
-            % calculate image scale
+            % calculate image scale (for actual image size)
             squareSize = floor(obj.windowSize/obj.arenaDimension);
             [x,~,~] = size(imread(obj.image_name));
             image_scale = squareSize / x;
 
-            id = 1;
-            % create list of ArenaSquare
+            % create actual image
+            obj.img = imread(obj.image_name);
+
+            % apply scaling
+            obj.img = imresize(obj.img,obj.image_scale);
+
+            % apply scaling
+            obj.img = imresize(obj.img,image_scale);
+
+            column = [];
+            % create column
             for i = 1:obj.arenaDimension % y
-                posy = (i-1)*squareSize;
-                for j = 1:obj.arenaDimension % x
-                    posx = (j-1)*squareSize;
-
-                    disp(strcat('posx: ',num2str(posx)));
-                    disp(strcat('posy: ',num2str(posy)));
-                    obj.arenaSquaresList{i,j} = ArenaSquare(obj.simul,id,posx,posy,obj.image_name,image_scale);
-                    id = id + 1;
-                end
+                column = cat(1,column,obj.img);
             end
 
-            % initialize list of ArenaSquare
-            for i = 1:size(obj.arenaSquaresList,1)
-                for j = 1:size(obj.arenaSquaresList,2)
-                    sq = obj.arenaSquaresList{i,j};
-                    sq.initialize();
-                end
+            new_img = [];
+            % add columns
+            for i = 1:obj.arenaDimension % y
+                new_img = cat(2,new_img,column);
             end
+
+            % give to obj.img
+            obj.img = new_img;
+
+            % update once
+            obj.update(obj.simul);
+
+            % draw once
+            obj.draw(obj.simul);
+
+            % OVERRIDE the 
+            %initialize @ DrawableObject(obj);
         end
-        function update(obj)
+        function update(obj,simul)
             %nothing
-            % update all the arena squares
-            for i = 1:size(obj.arenaSquaresList,1)
-                for j = 1:size(obj.arenaSquaresList,2)
-                    sq = obj.arenaSquaresList{i,j};
-                    sq.update(obj.simul);
-                end
-            end
-
+            update @ DrawableObject(obj,simul);
         end
-        function draw(obj)
-            % draw all the arena squares
-            for i = 1:size(obj.arenaSquaresList,1)
-                for j = 1:size(obj.arenaSquaresList,2)
-                    sq = obj.arenaSquaresList{i,j};
-                    sq.draw(obj.simul);
-                end
-            end
+        function draw(obj,simul)
+
+            draw @ DrawableObject(obj,simul);
         end
 
     end

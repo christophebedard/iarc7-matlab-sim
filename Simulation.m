@@ -30,8 +30,6 @@ classdef Simulation < UpdateableObject
             % create arena
             obj.arn = Arena(obj,obj.windowSize,obj.arenaDimension,obj.image_name);
             obj.arn.initialize();
-            obj.arn.update();
-            obj.arn.draw();
         end
         function update(obj)
             % implement
