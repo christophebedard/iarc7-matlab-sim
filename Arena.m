@@ -10,7 +10,7 @@ classdef Arena < DrawableObject
     end
     methods
         function obj = Arena(simul,windowSize,arenaDimension,image_name)
-            obj = obj @ DrawableObject(simul,0,0,0,image_name,1);
+            obj = obj @ DrawableObject(simul,0,0,0,0,image_name,1);
             
             obj.windowSize = windowSize;
             obj.arenaDimension = arenaDimension;

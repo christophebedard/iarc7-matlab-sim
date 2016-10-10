@@ -9,7 +9,7 @@ classdef Simulation < UpdateableObject
         windowPos_x = 100;
         windowPos_y = 200;
         arenaTile_image_name = 'images/floor_1.jpg';
-        groundRobot_image_name = 'images/create2.png';
+        groundRobot_image_name = 'images/create2_top_';
         % internal
         fig % window figure
         arn % arena with tiles

@@ -8,7 +8,7 @@ clc; clear all; close all;
 
 % simulation parameters
 windowSize = 720;
-arenaDimension = 20;
+arenaDimension = 10;
 numberOfRobots = 10;
 sim = Simulation(windowSize,arenaDimension,numberOfRobots);
 

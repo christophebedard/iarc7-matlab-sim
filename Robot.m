@@ -3,8 +3,8 @@ classdef Robot < DrawableObject
         name
     end
     methods
-        function obj = Robot(simul,initial_posx,initial_posy,initial_angle,name,image_name,image_scale)
-            obj = obj @ DrawableObject(simul,initial_posx,initial_posy,initial_angle,image_name,image_scale);
+        function obj = Robot(simul,initial_posx,initial_posy,initial_angle,initial_angle_offset,name,image_name,image_scale)
+            obj = obj @ DrawableObject(simul,initial_posx,initial_posy,initial_angle,initial_angle_offset,image_name,image_scale);
             obj.name = name;
         end
         function initialize(obj)
