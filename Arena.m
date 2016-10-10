@@ -24,15 +24,17 @@ classdef Arena < UpdateableObject % & Manager
             [x,~,~] = size(imread(obj.image_name));
             image_scale = squareSize / x;
 
+            id = 1;
             % create list of ArenaSquare
             for i = 1:obj.arenaDimension % y
                 posy = (i-1)*squareSize;
                 for j = 1:obj.arenaDimension % x
-                    disp(strcat('i: ',i));
-                    disp(strcat('j: ',j));
                     posx = (j-1)*squareSize;
-                    id = (i+j)-1;
+
+                    disp(strcat('posx: ',num2str(posx)));
+                    disp(strcat('posy: ',num2str(posy)));
                     obj.arenaSquaresList{i,j} = ArenaSquare(obj.simul,id,posx,posy,obj.image_name,image_scale);
+                    id = id + 1;
                 end
             end
 

@@ -6,7 +6,7 @@
 %% Initialisation: parameters setup
 clc; clear all; close all;
 
-sim = Simulation(709,2);
+sim = Simulation(1000,10);
 
 sim.initialize();
 

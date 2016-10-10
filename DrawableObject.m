@@ -30,7 +30,7 @@ classdef DrawableObject < UpdateableObject
         end
         function update(obj,simul)
             % update axis for image
-            obj.image_axis = axes('Parent',obj.simul.fig,'Position',[obj.posy obj.posx 1 1]);
+            obj.image_axis = axes('Parent',obj.simul.fig,'Units','pixels','Position',[obj.posy obj.posx size(obj.img,1) size(obj.img,1)],'Visible','off');
 
         end
         function draw(obj,simul)
