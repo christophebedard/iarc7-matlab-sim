@@ -50,7 +50,7 @@ classdef GroundRobotManager < UpdateableObject % & Manager
                 initial_posx = obj.center_x + ((obj.robotCircle_diameter_in_pixels / 2) * sin(deg2rad(initial_angle)));
                 initial_posy = obj.center_y + ((obj.robotCircle_diameter_in_pixels / 2) * cos(deg2rad(initial_angle)));
                 obj.GroundRobotList{i} = GroundRobot(obj.simul,i,initial_posx,initial_posy,initial_angle,obj.initial_angle_offset,'beep boop',obj.image_name,col,obj.create2_image_scale);
-                disp(obj.GroundRobotList{i});
+                %disp(obj.GroundRobotList{i}); % debug
             end
 
             % initialize ground robots
@@ -61,6 +61,7 @@ classdef GroundRobotManager < UpdateableObject % & Manager
         function update(obj,simul)
             for i = 1:obj.numberOfRobots
                 grndbot = obj.GroundRobotList{i};
+                %grndbot.rotateObjectCCW(36); % debug
                 grndbot.update(obj.simul);
             end
 

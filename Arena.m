@@ -33,16 +33,21 @@ classdef Arena < DrawableObject
             % get complete arena (through 2 dimensional cat of images)
             obj.img = catimage2D(obj.img,obj.arenaDimension);
 
+            % update axis for image
+            obj.image_axis = axes('Parent',obj.simul.fig,'Units','pixels','Position',[(floor(obj.posy)-(size(obj.img,1)/2)) (floor(obj.posx)-(size(obj.img,2)/2)) size(obj.img,1) size(obj.img,2)],'Visible','off');
+
             % OVERRIDE:
             %initialize @ DrawableObject(obj);
         end
         function update(obj,simul)
             %nothing
-            update @ DrawableObject(obj,simul);
+            % OVERRIDE
+            %update @ DrawableObject(obj,simul);
         end
         function draw(obj,simul)
-
-            draw @ DrawableObject(obj,simul);
+            imshow(obj.img,'Parent',obj.image_axis);
+            % OVERRIDE:
+            %draw @ DrawableObject(obj,simul);
         end
 
     end

@@ -13,7 +13,7 @@ classdef DrawableObject < UpdateableObject
         initial_angle           % initial angle given at construction
         % internal
         image_axis              % axis on the bottom left of the image
-        img                     % image
+        img                     % image generated with image_name, image_scale and img_angle (= obj_angle - angle_initial_offset)
         img_alpha               % alpha portion of image (to get png transparency) [NOT WORKING]
         deltaAngle              % rotation angle to be applied to object/image
     end
@@ -32,32 +32,17 @@ classdef DrawableObject < UpdateableObject
             obj.initial_angle = obj_angle;
         end
         function initialize(obj)
-            % read image
-            [obj.img,~,obj.img_alpha] = imread(obj.image_name,'BackgroundColor', [1 1 1]);
-
-            % apply scaling
-            obj.img = imresize(obj.img,obj.image_scale);
-
-            % apply initial angle rotation with offset
-            image_angle_offset = obj.obj_angle - obj.angle_initial_offset; % calculate initial rotation to apply because of image rotation offset
-            obj.rotateImgCCW(image_angle_offset);
-            obj.deltaAngle = 0;
+            
         end
         function update(obj,simul)
-            % apply rotation if needed
-            if (obj.deltaAngle ~= 0)
-                obj.rotateImgCCW(obj.deltaAngle);
-                obj.obj_angle = obj.obj_angle + obj.deltaAngle; % update angle property
-                obj.deltaAngle = 0; % set deltaAngle to 0
-            end
+            % update image
+            img_angle = obj.getActualImageAngle();
+            obj.img = obj.generateImg(obj.image_scale,img_angle);
 
             % update axis for image
             obj.image_axis = axes('Parent',obj.simul.fig,'Units','pixels','Position',[(floor(obj.posy)-(size(obj.img,1)/2)) (floor(obj.posx)-(size(obj.img,2)/2)) size(obj.img,1) size(obj.img,2)],'Visible','off');
-
         end
         function draw(obj,simul)
-            %implement
-            
             % draw image with axis
             imshow(obj.img,'Parent',obj.image_axis);
             %ims = imshow(obj.img,'Parent',obj.image_axis);
@@ -68,13 +53,26 @@ classdef DrawableObject < UpdateableObject
         % Function to rotate objet by deltaAngle. Will apply next update
         function rotateObjectCCW(obj,deltaAngle)
             % counterclockwise
-            obj.deltaAngle = deltaAngle;
+            obj.obj_angle = obj.obj_angle + deltaAngle;
+            obj.obj_angle = mod(obj.obj_angle, 360); % apply modulo 360 degrees to stay in [0,360]
         end
     end
     methods (Access = protected)
-        % rotate actual image
-        function rotateImgCCW(obj,deltaAngle)
-            obj.img = imrotate(obj.img,deltaAngle,'bilinear');
+        % Function to generate img with current object state
+        function img = generateImg(obj,img_scale,rotation)
+            % read image
+            [img,~,obj.img_alpha] = imread(obj.image_name);%,'BackgroundColor',[1 1 1]);
+            % apply scaling
+            img = imresize(img,img_scale);
+            % apply rotation
+            if (rotation ~= 0)
+                img = imrotate(img,rotation,'bilinear');
+            end
+        end
+
+        % Function to get actual image angle by applying angle_initial_offset to object angle
+        function img_angle =  getActualImageAngle(obj)
+            img_angle = obj.obj_angle - obj.angle_initial_offset;
         end
     end
 end
