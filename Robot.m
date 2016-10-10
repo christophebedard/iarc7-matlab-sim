@@ -1,14 +1,10 @@
 classdef Robot < DrawableObject
-    properties
-        initial_posx
-        initial_posy
+    properties (SetAccess = protected, GetAccess = public) %GetAccess = protected)
         name
     end
     methods
-        function obj = Robot(simul,initial_posx,initial_posy,name,image_name,image_scale)
-            obj = obj @ DrawableObject(simul,initial_posx,initial_posy,image_name,image_scale);
-            obj.initial_posx = initial_posx;
-            obj.initial_posy = initial_posy;
+        function obj = Robot(simul,initial_posx,initial_posy,initial_angle,name,image_name,image_scale)
+            obj = obj @ DrawableObject(simul,initial_posx,initial_posy,initial_angle,image_name,image_scale);
             obj.name = name;
         end
         function initialize(obj)

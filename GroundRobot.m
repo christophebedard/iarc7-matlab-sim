@@ -1,10 +1,10 @@
 classdef GroundRobot < Robot
-    properties (SetAccess = protected, GetAccess = protected)
+    properties (SetAccess = protected, GetAccess = public) %GetAccess = protected)
         id
     end
     methods
-        function obj = GroundRobot(simul,id, initial_posx,initial_posy,name,image_name,image_scale)
-            obj = obj @ Robot(simul,initial_posx,initial_posy,name,image_name,image_scale);
+        function obj = GroundRobot(simul,id,initial_posx,initial_posy,initial_angle,name,image_name,image_scale)
+            obj = obj @ Robot(simul,initial_posx,initial_posy,initial_angle,name,image_name,image_scale);
             obj.id = id;
         end
         function initialize(obj)

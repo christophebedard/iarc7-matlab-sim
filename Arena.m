@@ -5,9 +5,12 @@ classdef Arena < DrawableObject
         % internal
         arenaSquaresList
     end
+    properties (SetAccess = protected, GetAccess = public)
+        arenaSquareSize
+    end
     methods
         function obj = Arena(simul,windowSize,arenaDimension,image_name)
-            obj = obj @ DrawableObject(simul,0,0,image_name,1);
+            obj = obj @ DrawableObject(simul,0,0,0,image_name,1);
             
             obj.windowSize = windowSize;
             obj.arenaDimension = arenaDimension;
@@ -15,44 +18,23 @@ classdef Arena < DrawableObject
         function initialize(obj)
             % assuming: ^ (y)
             %           |      [square]
-            %           0 –—> (x)
+            %           + –—> (x)
 
             % calculate image scale (for actual image size)
-            squareSize = floor(obj.windowSize/obj.arenaDimension);
+            obj.arenaSquareSize = floor(obj.windowSize/obj.arenaDimension);
             [x,~,~] = size(imread(obj.image_name));
-            image_scale = squareSize / x;
+            image_scale = obj.arenaSquareSize / x;
 
             % create actual image
             obj.img = imread(obj.image_name);
 
             % apply scaling
-            obj.img = imresize(obj.img,obj.image_scale);
-
-            % apply scaling
             obj.img = imresize(obj.img,image_scale);
 
-            column = [];
-            % create column
-            for i = 1:obj.arenaDimension % y
-                column = cat(1,column,obj.img);
-            end
+            % get complete arena (through 2 dimensional cat of images)
+            obj.img = catimage2D(obj.img,obj.arenaDimension);
 
-            new_img = [];
-            % add columns
-            for i = 1:obj.arenaDimension % y
-                new_img = cat(2,new_img,column);
-            end
-
-            % give to obj.img
-            obj.img = new_img;
-
-            % update once
-            obj.update(obj.simul);
-
-            % draw once
-            obj.draw(obj.simul);
-
-            % OVERRIDE the 
+            % OVERRIDE:
             %initialize @ DrawableObject(obj);
         end
         function update(obj,simul)
@@ -64,5 +46,20 @@ classdef Arena < DrawableObject
             draw @ DrawableObject(obj,simul);
         end
 
+    end
+end
+
+% concatenate image in 2 dimensions
+function img = catimage2D(img,dim)
+    column = [];
+    % create column to repeat dim times
+    for i = 1:dim % y
+        column = cat(1,column,img);
+    end
+
+    img = [];
+    % add columns
+    for i = 1:dim % y
+        img = cat(2,img,column);
     end
 end
