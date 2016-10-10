@@ -3,6 +3,9 @@
 %
 % Main file for launch
 
+% assuming: ^(y)
+%           |
+%           + –—>(x)
 %% Initialisation: parameters setup
 clc; clear all; close all;
 

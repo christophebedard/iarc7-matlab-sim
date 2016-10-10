@@ -10,16 +10,15 @@ classdef Arena < DrawableObject
     end
     methods
         function obj = Arena(simul,windowSize,arenaDimension,image_name)
-            obj = obj @ DrawableObject(simul,0,0,0,0,image_name,1);
+            arenaSquareSize = floor(windowSize/arenaDimension);
+            arenaWidth = (arenaSquareSize * arenaDimension)/2; % x
+            arenaHeight = arenaWidth; % y
+            obj = obj @ DrawableObject(simul,arenaWidth,arenaHeight,0,0,image_name,1);
             
             obj.windowSize = windowSize;
             obj.arenaDimension = arenaDimension;
         end
         function initialize(obj)
-            % assuming: ^ (y)
-            %           |      [square]
-            %           + –—> (x)
-
             % calculate image scale (for actual image size)
             obj.arenaSquareSize = floor(obj.windowSize/obj.arenaDimension);
             [x,~,~] = size(imread(obj.image_name));
