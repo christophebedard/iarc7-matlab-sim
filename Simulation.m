@@ -6,7 +6,7 @@ classdef Simulation < UpdateableObject
         arenaDimension
         numberOfRobots
         sim_name = 'IARC mission 7 sim';
-        windowPos_x = 100;
+        windowPos_x = 300;
         windowPos_y = 200;
         arenaTile_image_name = 'images/floor_1.jpg';
         groundRobot_image_name = 'images/create2_top_';

@@ -12,12 +12,12 @@ clc; clear all; close all;
 % simulation parameters
 windowSize = 720;
 arenaDimension = 5;
-numberOfRobots = 10;
+numberOfRobots = 12;
 sim = Simulation(windowSize,arenaDimension,numberOfRobots);
 
 sim.initialize();
 
-for i=1:1
+for i=1:5
     sim.update();
     sim.draw();
     pause(0.1);

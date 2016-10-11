@@ -44,9 +44,8 @@ classdef DrawableObject < UpdateableObject
         end
         function draw(obj,simul)
             % draw image with axis
-            imshow(obj.img,'Parent',obj.image_axis);
-            %ims = imshow(obj.img,'Parent',obj.image_axis);
-            %set(ims,'AlphaData',obj.img_alpha);
+            %imshow(obj.img,'Parent',obj.image_axis); %doesn't work with alpha channel
+            set(imshow(obj.img,'Parent',obj.image_axis),'AlphaData',obj.img_alpha);
         end
         % ----------
 
@@ -61,12 +60,14 @@ classdef DrawableObject < UpdateableObject
         % Function to generate img with current object state
         function img = generateImg(obj,img_scale,rotation)
             % read image
-            [img,~,obj.img_alpha] = imread(obj.image_name);%,'BackgroundColor',[1 1 1]);
+            [img,~,obj.img_alpha] = imread(obj.image_name,'BackgroundColor',[]);
             % apply scaling
             img = imresize(img,img_scale);
+            % process alpha channel (apply resize)
+            obj.img_alpha = imresize(obj.img_alpha,img_scale);
             % apply rotation
             if (rotation ~= 0)
-                img = imrotate(img,rotation,'bilinear');
+                img = imrotate(img,rotation,'bilinear','crop');
             end
         end
 
