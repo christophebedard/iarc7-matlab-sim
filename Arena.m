@@ -39,10 +39,10 @@ classdef Arena < DrawableObject
             % OVERRIDE:
             %initialize @ DrawableObject(obj);
         end
-        function update(obj,simul)
+        function update(obj,simul,elapsedTime)
             %nothing
             % OVERRIDE
-            %update @ DrawableObject(obj,simul);
+            %update @ DrawableObject(obj,simul,elapsedTime);
         end
         function draw(obj,simul)
             imshow(obj.img,'Parent',obj.image_axis);

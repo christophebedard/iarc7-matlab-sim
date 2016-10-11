@@ -12,10 +12,10 @@ classdef Robot < DrawableObject
 
             initialize @ DrawableObject(obj);
         end
-        function update(obj,simul)
+        function update(obj,simul,elapsedTime)
             %implement
 
-            update @ DrawableObject(obj,simul);
+            update @ DrawableObject(obj,simul,elapsedTime);
         end
         function draw(obj,simul)
             %implement

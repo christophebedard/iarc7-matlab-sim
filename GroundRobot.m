@@ -14,10 +14,10 @@ classdef GroundRobot < Robot
 
             initialize @ Robot(obj);
         end
-        function update(obj,simul)
+        function update(obj,simul,elapsedTime)
             %implement
 
-            update @ Robot(obj,simul);
+            update @ Robot(obj,simul,elapsedTime);
         end
         function draw(obj,simul)
             %implement

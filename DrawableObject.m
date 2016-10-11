@@ -34,7 +34,7 @@ classdef DrawableObject < UpdateableObject
         function initialize(obj)
             
         end
-        function update(obj,simul)
+        function update(obj,simul,elapsedTime)
             % update image
             img_angle = obj.getActualImageAngle();
             obj.img = obj.generateImg(obj.image_scale,img_angle);
@@ -44,7 +44,6 @@ classdef DrawableObject < UpdateableObject
         end
         function draw(obj,simul)
             % draw image with axis
-            %imshow(obj.img,'Parent',obj.image_axis); %doesn't work with alpha channel
             set(imshow(obj.img,'Parent',obj.image_axis),'AlphaData',obj.img_alpha);
         end
         % ----------

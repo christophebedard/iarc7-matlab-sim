@@ -5,7 +5,7 @@ classdef UpdateableObject < handle
     methods (Abstract)
         initialize(obj)
         % instance initialization
-        update(obj,simul)
+        update(obj,simul,elapsedTime)
         % instance update
     end
 end
