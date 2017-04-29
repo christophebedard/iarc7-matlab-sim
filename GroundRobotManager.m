@@ -61,7 +61,7 @@ classdef GroundRobotManager < UpdateableObject % & Manager
         function update(obj,simul,elapsedTime)
             for i = 1:obj.numberOfRobots
                 grndbot = obj.GroundRobotList{i};
-                grndbot.rotateObjectCCW(36); % debug
+                %grndbot.rotateObjectCCW(36); % debug
                 grndbot.update(obj.simul,elapsedTime);
             end
 

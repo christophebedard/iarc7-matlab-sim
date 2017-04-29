@@ -17,7 +17,7 @@ classdef DrawableObject < UpdateableObject
         img_alpha               % alpha portion of image (to get png transparency) [NOT WORKING]
         deltaAngle              % rotation angle to be applied to object/image
     end
-    methods (Access = public)
+    methods %(Access = public)
         function obj = DrawableObject(simul,posx,posy,obj_angle,angle_initial_offset,image_name,image_scale)
             obj.simul = simul;
             obj.posx = posx;
@@ -47,12 +47,28 @@ classdef DrawableObject < UpdateableObject
             set(imshow(obj.img,'Parent',obj.image_axis),'AlphaData',obj.img_alpha);
         end
         % ----------
-
+        
+        % Function to move object from deltaAngle and deltaLin
+        function moveFromDeltaAngleAndDeltaLin(obj,deltaAngle,deltaLin)
+            deltaX = sin(deg2rad(deltaAngle+obj.obj_angle))*deltaLin;
+            deltaY = cos(deg2rad(deltaAngle+obj.obj_angle))*deltaLin;
+            
+            rotateObjectCCW(obj,deltaAngle);
+            moveObjectXY(obj,deltaX,deltaY);
+        end
+        
         % Function to rotate objet by deltaAngle. Will apply next update
         function rotateObjectCCW(obj,deltaAngle)
             % counterclockwise
             obj.obj_angle = obj.obj_angle + deltaAngle;
             obj.obj_angle = mod(obj.obj_angle, 360); % apply modulo 360 degrees to stay in [0,360]
+        end
+        
+        % Function to move object by deltaX and deltaY. Will apply next update
+        function moveObjectXY(obj,deltaX,deltaY)
+            % according to NE convention
+            obj.posx = obj.posx + deltaX;
+            obj.posy = obj.posy + deltaY;
         end
     end
     methods (Access = protected)

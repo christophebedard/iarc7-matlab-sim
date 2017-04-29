@@ -20,3 +20,7 @@ octave-workspace
 
 # Doc folder (ressources, documentation, etc)
 doc/
+
+# create_autonomy message generation folders
+create_autonomy/
+matlab_msg/
